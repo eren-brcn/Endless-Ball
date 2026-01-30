@@ -11,7 +11,7 @@ const scoreValueNode = document.querySelector('#score-value');
 let myBall, paddle, obstacles = [];
 let isGameRunning = false;
 let score = 0;
-const paddleData = { x: 350, y: 480, width: 100, height: 15, speed: 30 };
+const paddleData = { x: 350, y: 480, width: 100, height: 15, speed: 40 };
 
 /* Setup Functions */
 function createPaddle() {
@@ -94,8 +94,21 @@ function gameLoop() {
         }
 
         // 3. Win/Loss Checks
-        if (obstacles.length === 0) endGame("YOU WIN!");
-        if (myBall.y > gameBoxNode.clientHeight) endGame("GAME OVER");
+        if (obstacles.length === 0) {
+            // 1- Reset the ball so it sticks to the paddle again
+    myBall.isLaunched = false;
+
+    // 2- Spawn a new set of bricks 
+    createObstacles();
+   // 3- Add a small bonus to score for full clear
+
+   score += 100;
+   scoreValueNode.innerText = score; }
+
+   // 4- Keep your game over check as it is
+   if (myBall.y> gameBoxNode.clientHeight) {
+    endGame('Game Over');
+   }
 
         // 4. Update Visuals
         paddle.style.left = `${paddleData.x}px`;
