@@ -12,6 +12,10 @@ let myBall, paddle, obstacles = [];
 let isGameRunning = false;
 let score = 0;
 const paddleData = { x: 350, y: 480, width: 100, height: 15, speed: 40 };
+const hitsound = new
+Audio ('hit.mp3.mp3');
+hitsound.volume = 0.1; //Has to be low for listeners ears :D
+
 
 /* Setup Functions */
 function createPaddle() {
@@ -73,6 +77,8 @@ function gameLoop() {
                 brick.destroy();
                 obstacles.splice(index, 1);
                 myBall.speedY *= -1;
+                hitsound.currentTime = 0;
+                hitsound.play();
                 
                 score += 10;
                 scoreValueNode.innerText = score;
